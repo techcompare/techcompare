@@ -17,6 +17,19 @@
 ### 🚀 What I'm currently working on
 * **[Compose GenUI](https://github.com/techcompare/Issue_Template)** — An enterprise-grade runtime engine that streams JSON payloads from Large Language Models and dynamically compiles them into native Jetpack Compose trees without WebViews.
 
+### 📱 Published Apps & Live Projects
+
+**Android Applications on Google Play:**
+* 🏙️ **[Pune City Guide](https://play.google.com/store/apps/details?id=com.pranav.punecityguide)** — A comprehensive portal and guide for Pune City.
+* 🎓 **[BMCC](https://play.google.com/store/apps/details?id=com.pranav.bmcc)** — The official companion app for Brihan Maharashtra College of Commerce.
+
+**Web Platforms & Portals:**
+* 🌐 **[TalkChill](https://www.talkchill.online/)** — A modern web platform for connecting and chatting.
+* 🛒 **[TDS Innovation Store](https://www.tdsinnovation.store/)** — An innovative e-commerce and product storefront.
+* 📰 **[Justin News Tech](https://www.justinnews.tech/)** — A dedicated tech news and updates portal.
+
+---
+
 ### 🛠️ Tech Stack & Tools
 
 <p align="center">

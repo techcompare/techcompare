@@ -15,7 +15,7 @@
 ---
 
 ### 🚀 What I'm currently working on
-* **[Compose GenUI](https://github.com/techcompare/Issue_Template)** — An enterprise-grade runtime engine that streams JSON payloads from Large Language Models and dynamically compiles them into native Jetpack Compose trees without WebViews.
+* **[FatCat-Break](https://github.com/techcompare/FatCat-Break.git))** — An enterprise-grade runtime engine that streams JSON payloads from Large Language Models and dynamically compiles them into native Jetpack Compose trees without WebViews.
 
 ### 📱 Published Apps & Live Projects
 

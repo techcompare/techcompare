@@ -15,8 +15,8 @@
 ---
 
 ### 🚀 What I'm currently working on
-* **[FatCat-Break](https://github.com/techcompare/FatCat-Break.git))** — An enterprise-grade runtime engine that streams JSON payloads from Large Language Models and dynamically compiles them into native Jetpack Compose trees without WebViews.
-
+* **[FatCat-Break](https://github.com/techcompare/FatCat-Break.git))** — "FatCat Break: Because you clearly won't listen to a notification."
+* 
 ### 📱 Published Apps & Live Projects
 
 **Android Applications on Google Play:**

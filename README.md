@@ -15,7 +15,7 @@
     <a href="https://github.com/techcompare">
       <img src="https://komarev.com/ghpvc/?username=techcompare&label=VIEWS&color=ff0055&style=for-the-badge" alt="Profile Views" />
     </a>
-    <a href="https://www.youtube.com/@techcompare">
+    <a href="https://www.youtube.com/@JustinTechFeed/shorts">
       <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" />
     </a>
   </p>
@@ -98,8 +98,8 @@ I'm a creator focused on **Vibe Coding**—using AI, modern frameworks, and high
 
 <p align="center">
   <a href="mailto:workwithme785@gmail.com"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
-  <a href="https://www.youtube.com/@techcompare"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" /></a>
-  <a href="https://instagram.com/techcompare"><img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" /></a>
+  <a href="https://www.youtube.com/@JustinTechFeed/shorts"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" /></a>
+  <a href="https://www.instagram.com/thesignal.in/?hl=en"><img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" /></a>
 </p>
 
 <br>

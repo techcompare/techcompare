@@ -338,6 +338,31 @@
     </div>
   </section>
 
+  <div id="game-modal" class="game-modal" hidden>
+    <div class="game-backdrop" data-game-close></div>
+    <section class="game-dialog" role="dialog" aria-modal="true" aria-labelledby="game-title">
+      <button class="game-close" type="button" aria-label="Close game" data-game-close>&times;</button>
+      <p class="kicker">Playable word game</p>
+      <h2 id="game-title">Word challenge</h2>
+      <p id="game-description" class="game-description"></p>
+      <div class="game-meta">
+        <span id="game-round">Round 1</span>
+        <span id="game-score">Score 0</span>
+        <span id="game-attempts">3 tries</span>
+      </div>
+      <div id="game-challenge" class="game-challenge"></div>
+      <form id="game-form" class="game-form">
+        <label for="game-answer">Your answer</label>
+        <div class="game-entry">
+          <input id="game-answer" type="text" autocomplete="off" spellcheck="false" maxlength="20">
+          <button class="btn btn-primary" type="submit">Check</button>
+        </div>
+      </form>
+      <p id="game-feedback" class="game-feedback" aria-live="polite"></p>
+      <button id="game-next" class="btn btn-ghost" type="button" hidden>Next round</button>
+    </section>
+  </div>
+
   <!-- GUIDES -->
   <section id="guides" class="guides" aria-labelledby="guides-title">
     <div class="wrap">

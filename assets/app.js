@@ -310,6 +310,133 @@
   $$('.lib').forEach((b) => b.addEventListener('click', () => applyPreset(PRESETS[b.dataset.preset])));
   $('#try-example').addEventListener('click', () => applyPreset({ pattern: '?a?e', include: 'r', exclude: 't' }));
 
+  // ---------- PLAYABLE GAMES ----------
+  const GAME_DEFS = {
+    'start-ab': { title: 'Prefix Hunter', kind: 'prefix', filter: { start: 'ab' }, description: 'Guess a word that begins with the displayed prefix.' },
+    'start-be': { title: 'Prefix Hunter', kind: 'prefix', filter: { start: 'be' }, description: 'Guess a word that begins with the displayed prefix.' },
+    'start-co': { title: 'Prefix Hunter', kind: 'prefix', filter: { start: 'co' }, description: 'Guess a word that begins with the displayed prefix.' },
+    'start-re': { title: 'Prefix Hunter', kind: 'prefix', filter: { start: 're' }, description: 'Guess a word that begins with the displayed prefix.' },
+    'start-un': { title: 'Prefix Hunter', kind: 'prefix', filter: { start: 'un' }, description: 'Guess a word that begins with the displayed prefix.' },
+    'end-ed': { title: 'Suffix Sprint', kind: 'suffix', filter: { end: 'ed' }, description: 'Guess a word that ends with the displayed suffix.' },
+    'end-er': { title: 'Suffix Sprint', kind: 'suffix', filter: { end: 'er' }, description: 'Guess a word that ends with the displayed suffix.' },
+    'end-est': { title: 'Suffix Sprint', kind: 'suffix', filter: { end: 'est' }, description: 'Guess a word that ends with the displayed suffix.' },
+    'end-ness': { title: 'Suffix Sprint', kind: 'suffix', filter: { end: 'ness' }, description: 'Guess a word that ends with the displayed suffix.' },
+    'end-ment': { title: 'Suffix Sprint', kind: 'suffix', filter: { end: 'ment' }, description: 'Guess a word that ends with the displayed suffix.' },
+    'end-able': { title: 'Suffix Sprint', kind: 'suffix', filter: { end: 'able' }, description: 'Guess a word that ends with the displayed suffix.' },
+    'end-ous': { title: 'Suffix Sprint', kind: 'suffix', filter: { end: 'ous' }, description: 'Guess a word that ends with the displayed suffix.' },
+    'contains-ph': { title: 'Letter Pair Hunt', kind: 'scramble', filter: { contains: 'ph' }, description: 'Unscramble the letters into a word containing the displayed pair.' },
+    'contains-sh': { title: 'Letter Pair Hunt', kind: 'scramble', filter: { contains: 'sh' }, description: 'Unscramble the letters into a word containing the displayed pair.' },
+    'contains-ch': { title: 'Letter Pair Hunt', kind: 'scramble', filter: { contains: 'ch' }, description: 'Unscramble the letters into a word containing the displayed pair.' },
+    'contains-th': { title: 'Letter Pair Hunt', kind: 'scramble', filter: { contains: 'th' }, description: 'Unscramble the letters into a word containing the displayed pair.' },
+    'contains-ck': { title: 'Letter Pair Hunt', kind: 'scramble', filter: { contains: 'ck' }, description: 'Unscramble the letters into a word containing the displayed pair.' },
+    'contains-ai': { title: 'Vowel Switch', kind: 'missing', filter: { contains: 'ai' }, description: 'Fill in the missing letter to restore the word.' },
+    'contains-ea': { title: 'Vowel Switch', kind: 'missing', filter: { contains: 'ea' }, description: 'Fill in the missing letter to restore the word.' },
+    'contains-oi': { title: 'Vowel Switch', kind: 'missing', filter: { contains: 'oi' }, description: 'Fill in the missing letter to restore the word.' },
+    'include-j': { title: 'High-Value Guess', kind: 'pattern', filter: { include: 'j' }, description: 'Use the pattern clue to find the high-value word.' },
+    'include-q': { title: 'High-Value Guess', kind: 'pattern', filter: { include: 'q' }, description: 'Use the pattern clue to find the high-value word.' },
+    'include-x': { title: 'High-Value Guess', kind: 'pattern', filter: { include: 'x' }, description: 'Use the pattern clue to find the high-value word.' },
+    'include-z': { title: 'High-Value Guess', kind: 'pattern', filter: { include: 'z' }, description: 'Use the pattern clue to find the high-value word.' },
+    'no-e': { title: 'Vowel-Free Challenge', kind: 'reverse', filter: { exclude: 'e' }, description: 'Guess the word from its length and final letter.' },
+    'no-y': { title: 'Letter Lock', kind: 'reverse', filter: { exclude: 'y' }, description: 'Guess the word from its length and final letter.' },
+    four: { title: 'Four-Letter Dash', kind: 'scramble', filter: { min: 4, max: 4 }, description: 'Unscramble the four-letter word before time runs out.' },
+    six: { title: 'Six-Letter Dash', kind: 'scramble', filter: { min: 6, max: 6 }, description: 'Unscramble the six-letter word before time runs out.' },
+    eight: { title: 'Eight-Letter Dash', kind: 'scramble', filter: { min: 8, max: 8 }, description: 'Unscramble the eight-letter word before time runs out.' },
+    long: { title: 'Long Word Ladder', kind: 'pattern', filter: { min: 10 }, description: 'Reveal the long word from its partial pattern.' }
+  };
+  const gameModal = $('#game-modal');
+  const gameAnswer = $('#game-answer');
+  const gameState = { id: '', target: '', round: 0, score: 0, attempts: 3 };
+  const gameWords = (filter) => WORDS.filter((w) => {
+    if (w.length < 4 || w.length > 14) return false;
+    if (filter.start && !w.startsWith(filter.start)) return false;
+    if (filter.end && !w.endsWith(filter.end)) return false;
+    if (filter.contains && !w.includes(filter.contains)) return false;
+    if (filter.include && !w.includes(filter.include)) return false;
+    if (filter.exclude && [...w].some((c) => filter.exclude.includes(c))) return false;
+    if (filter.min && w.length < filter.min) return false;
+    if (filter.max && w.length > filter.max) return false;
+    return true;
+  });
+  const shuffled = (word) => {
+    const chars = word.split('');
+    for (let i = chars.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [chars[i], chars[j]] = [chars[j], chars[i]];
+    }
+    return chars.join('');
+  };
+  const gamePattern = (word) => word.split('').map((c, i) => i % 2 ? '_' : c).join(' ');
+  const startGame = (id) => {
+    if (!ready) { toast('The dictionary is still loading.'); return; }
+    const def = GAME_DEFS[id];
+    if (!def) { toast('This game is unavailable.'); return; }
+    const pool = gameWords(def.filter);
+    if (!pool.length) { toast('This game has no available words.'); return; }
+    gameState.id = id;
+    gameState.score = 0;
+    gameState.round = 0;
+    $('#game-title').textContent = def.title;
+    $('#game-description').textContent = def.description;
+    gameModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    nextGameRound();
+  };
+  const nextGameRound = () => {
+    const def = GAME_DEFS[gameState.id];
+    const pool = gameWords(def.filter);
+    gameState.target = pool[Math.floor(Math.random() * pool.length)];
+    gameState.round++;
+    gameState.attempts = 3;
+    $('#game-round').textContent = `Round ${gameState.round}`;
+    $('#game-score').textContent = `Score ${gameState.score}`;
+    $('#game-attempts').textContent = '3 tries';
+    $('#game-feedback').textContent = '';
+    $('#game-feedback').className = 'game-feedback';
+    $('#game-next').hidden = true;
+    gameAnswer.value = '';
+    const target = gameState.target;
+    let clue = '';
+    if (def.kind === 'scramble') clue = shuffled(target);
+    if (def.kind === 'missing') {
+      const at = Math.floor(Math.random() * target.length);
+      clue = target.slice(0, at) + '_' + target.slice(at + 1);
+    }
+    if (def.kind === 'pattern') clue = gamePattern(target);
+    if (def.kind === 'prefix') clue = `${def.filter.start} · ${target.length} letters`;
+    if (def.kind === 'suffix') clue = `${target.length} letters · ends ${def.filter.end}`;
+    if (def.kind === 'reverse') clue = `${target.length} letters · ends ${target.at(-1)}`;
+    $('#game-challenge').innerHTML = `${clue}<small>Type the answer and press Check.</small>`;
+    gameAnswer.focus();
+  };
+  const closeGame = () => { gameModal.hidden = true; document.body.style.overflow = ''; };
+  $$('.more-games-grid .lib').forEach((b) => b.addEventListener('click', () => startGame(b.dataset.preset)));
+  $$('[data-game-close]').forEach((b) => b.addEventListener('click', closeGame));
+  $('#game-next').addEventListener('click', nextGameRound);
+  $('#game-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const guess = clean(gameAnswer.value);
+    if (!guess || $('#game-next').hidden === false) return;
+    if (guess === gameState.target) {
+      gameState.score += gameState.attempts * 10;
+      $('#game-score').textContent = `Score ${gameState.score}`;
+      $('#game-feedback').textContent = `Correct — ${gameState.target.toUpperCase()} is worth ${gameState.attempts * 10} points.`;
+      $('#game-feedback').className = 'game-feedback is-good';
+      $('#game-next').hidden = false;
+      return;
+    }
+    gameState.attempts--;
+    $('#game-attempts').textContent = `${gameState.attempts} ${gameState.attempts === 1 ? 'try' : 'tries'}`;
+    if (!gameState.attempts) {
+      $('#game-feedback').textContent = `The answer was ${gameState.target.toUpperCase()}.`;
+      $('#game-feedback').className = 'game-feedback is-bad';
+      $('#game-next').hidden = false;
+    } else {
+      $('#game-feedback').textContent = 'Not quite — try another word.';
+      $('#game-feedback').className = 'game-feedback is-bad';
+    }
+    gameAnswer.select();
+  });
+
   // ---------- UNSCRAMBLER ----------
   const U = $('#u-letters');
   const renderTiles = (s) => {
